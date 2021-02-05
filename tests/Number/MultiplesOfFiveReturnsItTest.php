@@ -1,9 +1,7 @@
 <?php
-use App\Classes\ItHandler;
-use App\Classes\BhutHandler;
-use App\Classes\BhutItHandler;
-use App\Classes\NumberHandler;
+
 use PHPUnit\Framework\TestCase;
+use App\Services\ChainOfHandlers;
 
 final class MultiplesOfFiveReturnsItTest extends TestCase {
 
@@ -12,18 +10,10 @@ final class MultiplesOfFiveReturnsItTest extends TestCase {
      */
     public function testMultipleOfFiveReturnsIt($expected, $num)
     {
-        $bhut = new BhutHandler();
-        $it = new ItHandler();
-        $bhutIt = new BhutItHandler();
-        $number = new NumberHandler();
-
-        $bhut
-            ->setNext($it)
-            ->setNext($bhutIt)
-            ->setNext($number);
+        $chain = ChainOfHandlers::get();
 
         echo $num . "\n";
-        $this->assertEquals($expected, $bhut->handle($num));
+        $this->assertEquals($expected, $chain->handle($num));
     }
 
     public function validMultiples()
